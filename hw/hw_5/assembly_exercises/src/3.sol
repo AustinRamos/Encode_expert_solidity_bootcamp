@@ -7,9 +7,13 @@ contract SubOverflow {
         // Write assembly code that handles overflows
         assembly {
 
-            if lt(x, y) { return(0x00, 32) }
+            
+            if lt(x, y) { 
+                mstore(0x00,0)
+                return(0x00, 0x20) 
+                }
             let res := sub(x,y)
-           mstore(0x00, 0)
+           mstore(0x00, res)
             return(0x00, 0x20)
         }
     }

@@ -5,17 +5,20 @@ import "forge-std/Test.sol";
 import "../src/1.sol";
 import "../src/2.sol";
 import "../src/3.sol";
+import "../src/4.sol";
+ 
 
 contract Assembly is Test {
     Intro public intro;
     Add public two;
     SubOverflow public three;
+    Scope public four;
 
     function setUp() public {
         intro = new Intro();
         two = new Add();
         three = new SubOverflow();
-        
+        four = new Scope();
     }
 
     function test1() public {
@@ -36,9 +39,14 @@ contract Assembly is Test {
    
         assertEq(result, 0);
         uint256 result2 = three.subtract(10,5);
-
    
         assertEq(result2, 5);
+    }
+
+    function test4() public {
+        four.increment(5);
+        uint256 result = four.count();
+        assertEq(result, 15);
     }
 
     // function testSetNumber(uint256 x) public {
