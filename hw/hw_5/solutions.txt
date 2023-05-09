@@ -1,0 +1,44 @@
+1) When we do the CODECOPY operation, what are we overwriting ?
+(debugging this in Remix might help)
+
+top 3 elements off the stack when CODECOPY is called are:
+0:
+0x0000000000000000000000000000000000000000000000000000000000000000
+1:
+0x0000000000000000000000000000000000000000000000000000000000000027
+2:
+0x00000000000000000000000000000000000000000000000000000000000000b6
+
+	CODECOPY takes 3 params off stack: 
+    destOffset: byte offset in the memory where the result will be copied.
+    offset: byte offset in the code to copy.
+    size: byte size to copy.
+
+size is 182 byes. 
+offset is at 39th byte i code(i believe the point where the init code ends)
+dest offset is 0, meaning the 0th slot in memory is written to, up until slot 0xa0.
+the free memory pointer at 0x40 is overwritten.
+
+
+2) Could the answer to Q1 allow an optimisation ?
+
+Come back to this. would it be to not write the Free memory pointer in the first place until later? 
+which would save a couple opcodes(push, mstore).
+
+3) 
+Yes. 
+the first few opcodes are: 
+CALLVALUE DUP1 ISZERO PUSH2 0x10 JUMPI PUSH1 0x0 DUP1 REVERT
+
+This checks the eth value(in wei) sent at contract creation. 
+if the value is not zero than the revert opcode at the end of this bytecode snippet is triggered.
+
+4) 
+function add(uint256 a, uint b) public returns (uint){
+    `assembly{
+    let res:=add(a,b)
+    mstore(0x80,res)
+    return(0x80,32)
+    }`
+    0x80 is free memory pointer. the uint result is 32 bytes long. we add a and b into the variable res.
+    then we store res in mempoery at free mem pointer 0x80. than we return the 32bytes starting at slot 0x80.
