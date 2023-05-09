@@ -1,0 +1,3 @@
+[submodule "hw/hw_5/assembly_exercises/lib/forge-std"]
+	path = hw/hw_5/assembly_exercises/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
