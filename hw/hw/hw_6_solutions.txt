@@ -1,0 +1,41 @@
+1) Create a Solidity contract with one function
+The solidity function should return the amount of ETH that was passed to it, and the
+function body should be written in assembly
+
+refer to assembly2.sol:
+` assembly {
+            // stack variables are instantiated with
+             let val := callvalue()
+            // instantiate a stack variable that holds the value of mol
+            mstore(0x40,val)
+            // To return it needs to be stored in memory
+            // with command mstore(MEMORY_LOCATION, STACK_VARIABLE)
+            // to return you need to specify address and the size from the starting point
+            return(0x40,32)
+        } `
+
+
+2) do you know what this code is doing? 
+
+this code creates and deploys a smart contract from another contract. 
+the contract then self destructs and sends any ether in it to the new one.
+
+ this is the intitialization code which is run once when the contracy is deployed.
+ It copies the runtime bytecode to memory 
+it then uses the create opcode to create a new address with the 
+
+creates a new account, with parametrs 0, 23, and CS 
+where CS is total code size in memory(init code + runtime code )
+runtime:
+
+`0x68601e8060093d393df35952383d59396009380160173d828234f050f0ff`
+
+
+
+3) Explain what the following ccode is doing in Yul ERC2- contract: 
+`function allowanceStorageOffset(account, spender) -> offset {
+offset := accountToStorageOffset(account)
+mstore(0, offset)
+mstore(0x20, spender)
+offset := keccak256(0, 0x40)
+}'

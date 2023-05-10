@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/1.sol";
-import "../src/2.sol";
-import "../src/3.sol";
-import "../src/4.sol";
+import "../src/hw_5/1.sol";
+import "../src/hw_5/2.sol";
+import "../src/hw_5/3.sol";
+import "../src/hw_5/4.sol";
  
 
 contract Assembly is Test {
